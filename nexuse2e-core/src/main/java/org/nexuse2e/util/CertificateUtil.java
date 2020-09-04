@@ -1079,32 +1079,53 @@ public class CertificateUtil {
      * @param certPool
      *            The pool of trusted certificates.
      */
-    private static void complementCertificateChain(List<X509Certificate> chain, List<X509Certificate> certPool) {
+    private static boolean complementCertificateChain(List<X509Certificate> chain, List<X509Certificate> certPool) {
         if (chain != null && chain.size() > 0 && certPool != null && certPool.size() > 0) {
             X509Certificate lastChainLink = chain.get(chain.size() - 1);
             if (lastChainLink != null) {
                 X500Principal issuer = lastChainLink.getIssuerX500Principal();
                 // only try to find issuer cert, if cert is not self-signed; otherwise we would end up with an infinite loop
                 if (issuer != null && !issuer.equals(lastChainLink.getSubjectX500Principal())) {
+                    List<X509Certificate> candidates = new ArrayList<>();
                     for (X509Certificate currCert : certPool) {
+
                         // the issuer of the last chain link must be the subject of the next chain link
                         if (currCert != null && issuer.equals(currCert.getSubjectX500Principal())) {
                             try {
                                 // unfortunately a verification failure is indicated by an exception
                                 lastChainLink.verify(currCert.getPublicKey());
-                                // if no exception was thrown, the right ca was found
-                                chain.add(currCert); // add issuer to chain and make next recursion step
-                                // recursion
-                                complementCertificateChain(chain, certPool);
-                                return; // the chain needs only one trusted link on each position
+                                // if no exception was thrown, the cert is a candidate to be the right ca cert
+                                candidates.add(currCert);
                             } catch (Exception e) {
                                 // current certificate is not the issuer
                             }
                         }
                     }
+                    if (candidates.size() > 0) {
+                        boolean completed = false;
+                        for (X509Certificate candidate : candidates) {
+                            List<X509Certificate> possibleChain = new ArrayList<>();
+                            possibleChain.addAll(chain);
+                            possibleChain.add(candidate); // add issuer to chain and make next recursion step
+                            // recursion
+                            completed = complementCertificateChain(possibleChain, certPool);
+                            if (completed) {
+                                chain.clear();
+                                chain.addAll(possibleChain);
+                                break;
+                            }
+                        }
+                        return completed;
+                    } else {
+                        return false;
+                    }
+
+                } else {
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     /**
