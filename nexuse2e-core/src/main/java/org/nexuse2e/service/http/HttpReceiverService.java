@@ -131,12 +131,12 @@ public class HttpReceiverService extends AbstractControllerService implements Re
             } catch ( RuntimeException e ) {
                 LOG.error(e);
             }
-            
+
             processMessage( messageContext );
+            response.setStatus( HttpServletResponse.SC_OK );
             LOG.trace( new LogMessage( "Processing Done",messageContext.getMessagePojo()) );
 
             // PrintWriter out = new PrintWriter( response.getOutputStream() );
-            response.setStatus( HttpServletResponse.SC_OK );
             // out.println( "\n" );
             //out.flush();
             //out.close();
@@ -250,8 +250,9 @@ public class HttpReceiverService extends AbstractControllerService implements Re
     public MessageContext processMessage( MessageContext messageContext ) throws IllegalArgumentException,
             IllegalStateException, NexusException {
 
+        MessageContext response = null;
         if ( transportReceiver != null ) {
-            transportReceiver.processMessage( messageContext );
+            response = transportReceiver.processMessage( messageContext );
             if ( transportReceiver.getStatus() != BeanStatus.ACTIVATED ) {
                 savePayload( messageContext );
             }
@@ -259,7 +260,7 @@ public class HttpReceiverService extends AbstractControllerService implements Re
             LOG.fatal( "No TransportReceiver available for inbound message!" );
             savePayload( messageContext );
         }
-        return null;
+        return response;
     }
 
     private void savePayload( MessageContext messageContext ) {

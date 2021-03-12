@@ -178,6 +178,13 @@ public class MessageWorkerImpl implements MessageWorker {
             } catch (StateTransitionException stex) {
                 LOG.warn(new LogMessage(stex.getMessage(), messageContext));
             }
+
+            if (messageContext.getParticipant().getConnection().isSynchronous()) {
+                Engine.getInstance().getCurrentConfiguration().getStaticBeanContainer().getFrontendInboundDispatcher()
+                        .processSynchronousReplyMessage(messageContext);
+                Engine.getInstance().getTransactionService()
+                        .removeSynchronousRequest(messageContext.getMessagePojo().getMessageId());
+            }
         }
     
         protected void processOutbound(MessageContext messageContext) {
