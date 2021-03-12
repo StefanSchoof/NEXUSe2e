@@ -503,6 +503,21 @@ public class ConversationStateMachineImpl implements ConversationStateMachine {
         executeStateTransitionJobs( StateTransition.PROCESSING_FAILED );
     }
 
+    public void processingBackendFailed() throws StateTransitionException, NexusException {
+
+        UpdateTransactionOperation operation = new UpdateTransactionOperation() {
+            public UpdateScope update(ConversationPojo conversation, MessagePojo message, MessagePojo referencedMessage) throws NexusException, StateTransitionException {
+                message.setBackendStatus(MessageBackendStatus.FAILED.getOrdinal());
+
+                return UpdateScope.MESSAGE_ONLY;
+            }
+
+        };
+
+        // Persist the message
+        Engine.getInstance().getTransactionService().updateTransaction(message, operation);
+    }
+
     public void queueMessage() throws StateTransitionException, NexusException {
 
         queueMessage( false );

@@ -131,6 +131,13 @@ public interface ConversationStateMachine {
     public abstract void processingFailed() throws StateTransitionException, NexusException;
 
     /**
+     * Updates the conversation and message state after processing backend has failed.
+     * @throws StateTransitionException If the state transition is illegal.
+     * @throws NexusException If the transition could not be performed due to a system-specific error.
+     */
+    public abstract void processingBackendFailed() throws StateTransitionException, NexusException;
+
+    /**
      * Sets the current conversation message to <code>QUEUED</code> without forcing
      * a state transition.
      * @throws StateTransitionException if the state transition is invalid.

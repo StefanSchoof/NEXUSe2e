@@ -169,6 +169,7 @@ public class MessageWorkerImpl implements MessageWorker {
             } catch (NexusException nex) {
                 LOG.error(new LogMessage("Error processing backend", messageContext, nex), nex);
                 try {
+                    messageContext.getStateMachine().processingBackendFailed();
                     messageContext.getStateMachine().processingFailed();
                 } catch (StateTransitionException e) {
                     LOG.warn(new LogMessage(e.getMessage(), messageContext));
