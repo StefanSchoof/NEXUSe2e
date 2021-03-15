@@ -283,14 +283,29 @@ public class FrontendInboundDispatcher extends ChoreographyValidator implements 
                     // Forward message to FrontendActionSerializer for further processing/queueing
                     MessageHandlingCenter.getInstance().processMessage(messageContext);
 
-                    // Block for synchronous processing
                     if (participant.getConnection().isSynchronous()) {
                         responseMessageContext = waitForSynchronousResponse(messageContext);
-                        if (responseMessageContext.getConversation().getStatus() != Constants.CONVERSATION_STATUS_ERROR) {
+                        if (messageContext.getParticipant().getConnection().isReliable()) {
                             try {
-                                messageContext.getStateMachine().receivedNonReliableMessage();
-                            } catch (StateTransitionException e) {
-                                LOG.warn(e.getMessage());
+                                if (responseMessageContext.getConversation().getStatus() != Constants.CONVERSATION_STATUS_ERROR) {
+                                    responseMessageContext = protocolAdapter.createAcknowledgement(choreography, messageContext);
+                                } else {
+                                    responseMessageContext = protocolAdapter.createErrorAcknowledgement(
+                                            Constants.ErrorMessageReasonCode.UNKNOWN, choreography, messageContext,
+                                            errorMessages);
+                                }
+                                //TODO maybeprocessCreatedAck
+                            } catch (NexusException e) {
+                                LOG.error(new LogMessage("Error creating acknowledgement", messageContext, e), e);
+                            }
+                        } else {
+                            if (responseMessageContext.getConversation().getStatus() != Constants.CONVERSATION_STATUS_ERROR) {
+                                try {
+                                    // TODO: Maybe also execute for reliable messages
+                                    messageContext.getStateMachine().receivedNonReliableMessage();
+                                } catch (StateTransitionException e) {
+                                    LOG.warn(e.getMessage());
+                                }
                             }
                         }
                     }
