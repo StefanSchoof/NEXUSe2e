@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -132,8 +133,17 @@ public class HttpReceiverService extends AbstractControllerService implements Re
                 LOG.error(e);
             }
 
-            processMessage( messageContext );
-            response.setStatus( HttpServletResponse.SC_OK );
+            MessageContext responseCtx = processMessage( messageContext );
+            if ( responseCtx != null && responseCtx.getSynchronusBackendResponse() instanceof HttpResponse ) {
+                HttpResponse synchronusBackendResponse = (HttpResponse) responseCtx.getSynchronusBackendResponse();
+                response.setStatus( synchronusBackendResponse.getStatusCode() );
+                response.getOutputStream().write(synchronusBackendResponse.getBody());
+                for ( Entry<? extends String, ? extends String> e : synchronusBackendResponse.getHeaders().entrySet() ) {
+                    response.addHeader( e.getKey(), e.getValue() );
+                }
+            } else {
+                response.setStatus( HttpServletResponse.SC_OK );
+            }
             LOG.trace( new LogMessage( "Processing Done",messageContext.getMessagePojo()) );
 
             // PrintWriter out = new PrintWriter( response.getOutputStream() );

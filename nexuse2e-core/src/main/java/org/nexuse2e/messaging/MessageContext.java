@@ -57,6 +57,7 @@ public class MessageContext implements Serializable {
     private ConversationPojo    conversation        = null;
 
     private ArrayList<ErrorDescriptor> errors       = null;
+    private Object synchronusBackendResponse        = null;
     
     private transient ConversationStateMachine conversationStateMachine = null;
     private transient boolean                  processThroughReturnPipeline = true;
@@ -405,5 +406,12 @@ public class MessageContext implements Serializable {
     public void setFirstTimeInQueue(boolean firstTimeInQueue) {
         this.firstTimeInQueue = firstTimeInQueue;
     }
-    
+
+    public Object getSynchronusBackendResponse() {
+        return synchronusBackendResponse;
+    }
+
+    public void setSynchronusBackendResponse(Object synchronusBackendResponse) {
+        this.synchronusBackendResponse = synchronusBackendResponse;
+    }
 } // MessageContext
