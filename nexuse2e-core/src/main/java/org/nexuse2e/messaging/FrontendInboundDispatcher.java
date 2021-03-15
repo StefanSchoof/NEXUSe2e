@@ -294,7 +294,12 @@ public class FrontendInboundDispatcher extends ChoreographyValidator implements 
                                             Constants.ErrorMessageReasonCode.UNKNOWN, choreography, messageContext,
                                             errorMessages);
                                 }
-                                //TODO maybeprocessCreatedAck
+                                try {
+                                    LOG.debug(new LogMessage("dispatching response message", message));
+                                    MessageHandlingCenter.getInstance().processMessage(responseMessageContext);
+                                } catch (NexusException e) {
+                                    LOG.error(new LogMessage("Unable to process Acknowledgement", message, e), e);
+                                }
                             } catch (NexusException e) {
                                 LOG.error(new LogMessage("Error creating acknowledgement", messageContext, e), e);
                             }

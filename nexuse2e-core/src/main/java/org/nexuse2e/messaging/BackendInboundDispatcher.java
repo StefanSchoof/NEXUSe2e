@@ -19,9 +19,6 @@
  */
 package org.nexuse2e.messaging;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.nexuse2e.ActionSpecificKey;
 import org.nexuse2e.BeanStatus;
@@ -34,9 +31,11 @@ import org.nexuse2e.logging.LogMessage;
 import org.nexuse2e.pojo.ActionPojo;
 import org.nexuse2e.pojo.ChoreographyPojo;
 import org.nexuse2e.pojo.ConversationPojo;
-import org.nexuse2e.pojo.MessagePojo;
 import org.nexuse2e.util.NexusThreadStorage;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Component dispatching inbound messages to the correct pipeline based on their choreography.
@@ -80,13 +79,6 @@ public class BackendInboundDispatcher implements InitializingBean, Manageable {
                 if ( LOG.isDebugEnabled() ) {
 	            	LOG.debug( new LogMessage( "Found pipeline: " + backendInboundPipeline + " - " + actionSpecificKey,
 	                        messageContext.getMessagePojo() ) );
-                }
-
-                // Clone MessagePojo so that Pipelets in the Pipeline can modify the message/payloads
-                try {
-                    messageContext.setMessagePojo( (MessagePojo) messageContext.getMessagePojo().clone() );
-                } catch ( CloneNotSupportedException e ) {
-                    throw new NexusException( "Error cloning original MessagePojo!" );
                 }
 
                 backendInboundPipeline.processMessage(messageContext);
