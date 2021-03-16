@@ -375,11 +375,14 @@ public class FrontendInboundDispatcher extends ChoreographyValidator implements 
                 }
             }
             //TODO we should check the replies first before we wait
-            
+
             // Since the processing process uses notifyAll(),
             // we check whether there is a response for this thread.
             // If response is not present, the loop continues.
             responseMessageContext = synchronousReplies.get(messageContext.getMessagePojo().getMessageId());
+        }
+        if (responseMessageContext.getSynchronusBackendResponse() instanceof RuntimeException ) {
+            throw (RuntimeException) responseMessageContext.getSynchronusBackendResponse();
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug(new LogMessage("Found reply for synchronous connection: " + responseMessageContext, message));

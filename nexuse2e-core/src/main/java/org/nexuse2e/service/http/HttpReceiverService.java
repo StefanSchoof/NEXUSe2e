@@ -50,6 +50,7 @@ import org.nexuse2e.BeanStatus;
 import org.nexuse2e.ClusterException;
 import org.nexuse2e.Engine;
 import org.nexuse2e.Layer;
+import org.nexuse2e.MessageStatus;
 import org.nexuse2e.NexusException;
 import org.nexuse2e.configuration.NexusUUIDGenerator;
 import org.nexuse2e.configuration.ParameterDescriptor;
@@ -134,21 +135,25 @@ public class HttpReceiverService extends AbstractControllerService implements Re
             }
 
             MessageContext responseCtx = processMessage( messageContext );
-            if ( responseCtx != null && responseCtx.getSynchronusBackendResponse() instanceof HttpResponse ) {
-                HttpResponse synchronusBackendResponse = (HttpResponse) responseCtx.getSynchronusBackendResponse();
-                response.setStatus( synchronusBackendResponse.getStatusCode() );
-                response.getOutputStream().write(synchronusBackendResponse.getBody());
-                for ( Entry<? extends String, ? extends String> e : synchronusBackendResponse.getHeaders().entrySet() ) {
-                    response.addHeader( e.getKey(), e.getValue() );
-                }
-            } else {
-                if ( responseCtx != null
-                        && responseCtx.getConversation().getStatus() == Constants.CONVERSATION_STATUS_ERROR )
-                {
-                    response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+            if ( responseCtx != null && responseCtx.getParticipant().getConnection().isSynchronous()) { // synchronous
+                if ( responseCtx.getSynchronusBackendResponse() instanceof HttpResponse ) {
+                    HttpResponse synchronusBackendResponse = (HttpResponse) responseCtx.getSynchronusBackendResponse();
+                    response.setStatus( synchronusBackendResponse.getStatusCode() );
+                    response.getOutputStream().write( synchronusBackendResponse.getBody() );
+                    for ( Entry<? extends String, ? extends String> e : synchronusBackendResponse.getHeaders().entrySet() ) {
+                        response.addHeader( e.getKey(), e.getValue() );
+                    }
                 } else {
-                    response.setStatus( HttpServletResponse.SC_OK );
+                    if ( responseCtx.getMessagePojo().getStatus() == MessageStatus.FAILED.getOrdinal() ||
+                            responseCtx.getMessagePojo().getBackendStatus() == MessageStatus.FAILED.getOrdinal() )
+                    {
+                        response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+                    } else {
+                        response.setStatus( HttpServletResponse.SC_OK );
+                    }
                 }
+            } else { // async
+                response.setStatus( HttpServletResponse.SC_OK );
             }
             LOG.trace( new LogMessage( "Processing Done",messageContext.getMessagePojo()) );
 
@@ -226,7 +231,7 @@ public class HttpReceiverService extends AbstractControllerService implements Re
         } else {
         	// create simple output for none ebxml requests.
         	response.setContentType( "text/plain" );
-        	response.setStatus(400);
+        	response.setStatus(500);
         	PrintWriter pw = new PrintWriter(response.getOutputStream());
         	pw.write("NEXUSe2e - Processing error: " + message);
         	pw.flush();

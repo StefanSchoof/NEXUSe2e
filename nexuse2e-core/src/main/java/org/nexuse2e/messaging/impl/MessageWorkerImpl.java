@@ -24,6 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import antlr.debug.MessageAdapter;
 import org.apache.log4j.Logger;
 import org.nexuse2e.Engine;
 import org.nexuse2e.MessageStatus;
@@ -161,12 +162,14 @@ public class MessageWorkerImpl implements MessageWorker {
                 LOG.debug(new LogMessage("Processing inbound message..." + messageContext.getStateMachine().toString(), messageContext));
             }
     
+            NexusException backendException = null;
             // Initiate the backend process
             try {
                 Engine.getInstance().getCurrentConfiguration().getStaticBeanContainer().getBackendInboundDispatcher().processMessage(messageContext);
                 messageContext.getStateMachine().processedBackend();
     
             } catch (NexusException nex) {
+                backendException = nex;
                 LOG.error(new LogMessage("Error processing backend", messageContext, nex), nex);
                 try {
                     messageContext.getStateMachine().processingBackendFailed();
@@ -181,6 +184,9 @@ public class MessageWorkerImpl implements MessageWorker {
             }
 
             if (messageContext.getParticipant().getConnection().isSynchronous()) {
+                if (backendException != null) {
+                    messageContext.setSynchronusBackendResponse(backendException);
+                }
                 Engine.getInstance().getCurrentConfiguration().getStaticBeanContainer().getFrontendInboundDispatcher()
                         .processSynchronousReplyMessage(messageContext);
                 Engine.getInstance().getTransactionService()
