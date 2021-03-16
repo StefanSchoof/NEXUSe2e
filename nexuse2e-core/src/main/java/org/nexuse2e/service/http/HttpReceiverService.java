@@ -142,7 +142,13 @@ public class HttpReceiverService extends AbstractControllerService implements Re
                     response.addHeader( e.getKey(), e.getValue() );
                 }
             } else {
-                response.setStatus( HttpServletResponse.SC_OK );
+                if ( responseCtx != null
+                        && responseCtx.getConversation().getStatus() == Constants.CONVERSATION_STATUS_ERROR )
+                {
+                    response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+                } else {
+                    response.setStatus( HttpServletResponse.SC_OK );
+                }
             }
             LOG.trace( new LogMessage( "Processing Done",messageContext.getMessagePojo()) );
 
