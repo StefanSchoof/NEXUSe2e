@@ -34,6 +34,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.*;
+import org.nexuse2e.MessageBackendStatus;
 import org.nexuse2e.MessageStatus;
 import org.nexuse2e.messaging.Constants;
 import org.nexuse2e.messaging.ErrorDescriptor;
@@ -578,7 +579,7 @@ public class MessagePojo implements NEXUSe2ePojo {
 
     public static String getBackendStatusName(int backendStatus) {
         try {
-            return MessageStatus.getByOrdinal(backendStatus).toString();
+            return MessageBackendStatus.getByOrdinal(backendStatus).toString();
         } catch (Exception e) {
             // Pokemon!
             return "UNKNOWN";
@@ -591,7 +592,7 @@ public class MessagePojo implements NEXUSe2ePojo {
      * @return The type name, not <code>null</code>.
      */
     public String getBackendStatusName() {
-        return getStatusName(getBackendStatus());
+        return getBackendStatusName(getBackendStatus());
     }
 
     public static String getTypeName(int type) {
