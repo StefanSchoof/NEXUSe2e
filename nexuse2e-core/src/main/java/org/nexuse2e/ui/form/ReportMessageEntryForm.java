@@ -104,9 +104,9 @@ public class ReportMessageEntryForm extends ActionForm {
                 // setStatus( "Retrying (" + messagePojo.getStatus() + ")" );
                 setStatus("Retrying");
                 break;
-            case SENT:
+            case COMPLETED:
                 // setStatus( "Sent (" + messagePojo.getStatus() + ")" );
-                setStatus("Sent");
+                setStatus("Completed");
                 break;
             case STOPPED:
                 // setStatus( "Stopped (" + messagePojo.getStatus() + ")" );

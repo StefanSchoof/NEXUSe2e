@@ -76,7 +76,7 @@ public class MessageHandlingCenter implements MessageProcessor {
     public MessageContext processMessage( MessageContext messageContext ) throws IllegalStateException, NexusException {
 
         if (messageContext.getMessagePojo().getStatus() != MessageStatus.QUEUED.getOrdinal() &&
-                messageContext.getMessagePojo().getStatus() != MessageStatus.SENT.getOrdinal()) {
+                messageContext.getMessagePojo().getStatus() != MessageStatus.COMPLETED.getOrdinal()) {
             try {
                 messageContext.getStateMachine().queueMessage();
             } catch ( StateTransitionException e ) {
