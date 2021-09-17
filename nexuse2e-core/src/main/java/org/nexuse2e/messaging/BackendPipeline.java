@@ -82,9 +82,9 @@ public class BackendPipeline extends AbstractPipeline implements ActionSpecific 
                 LOG.error( new LogMessage( "No pipelets found.", messageContext.getMessagePojo() ) );
             }
             if (messageContext.getMessagePojo().isOutbound()) {
-                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.OUTBOUND.getOrdinal());
+                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.COMPLETED_OUTBOUND.getOrdinal());
             } else {
-                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.SENT.getOrdinal());
+                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.COMPLETED_INBOUND.getOrdinal());
             }
             messageContext = pipelineEndpoint.processMessage( messageContext );
 

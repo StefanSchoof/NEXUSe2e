@@ -412,7 +412,7 @@ public class ConversationStateMachineImpl implements ConversationStateMachine {
             UpdateTransactionOperation operation = new UpdateTransactionOperation() {
                 public UpdateScope update(ConversationPojo conversation, MessagePojo message, MessagePojo referencedMessage) throws NexusException, StateTransitionException {
                     message.setStatus( MessageStatus.COMPLETED.getOrdinal() );
-                    message.setBackendStatus(MessageBackendStatus.SENT.getOrdinal());
+                    message.setBackendStatus(MessageBackendStatus.COMPLETED_INBOUND.getOrdinal());
                     message.setModifiedDate( new Date() );
                     message.setEndDate( message.getModifiedDate() );
                     

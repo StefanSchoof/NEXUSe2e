@@ -121,11 +121,9 @@ public class ReportMessageEntryForm extends ActionForm {
             case FAILED:
                 setBackendStatus("Failed");
                 break;
-            case SENT:
-                setBackendStatus("Sent");
-                break;
-            case OUTBOUND:
-                setBackendStatus("Outbound");
+            case COMPLETED_INBOUND:
+            case COMPLETED_OUTBOUND:
+                setBackendStatus("Completed");
                 break;
             default:
                 setBackendStatus("Unknown");

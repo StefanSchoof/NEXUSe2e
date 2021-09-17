@@ -20,7 +20,7 @@
 package org.nexuse2e;
 
 public enum MessageBackendStatus {
-    FAILED(-1), UNKNOWN(0), SENT(1), OUTBOUND(2);
+    FAILED(-1), UNKNOWN(0), COMPLETED_INBOUND(1), COMPLETED_OUTBOUND(2);
 
     int ordinal = 0;
 
