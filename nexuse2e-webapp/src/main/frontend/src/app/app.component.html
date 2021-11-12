@@ -1,5 +1,17 @@
-<app-header *ngIf="showHeaderNav"></app-header>
-<app-navigation *ngIf="showHeaderNav"></app-navigation>
-<div [ngClass]="{ 'content-container': showHeaderNav }" class="padded-desktop">
-  <router-outlet (activate)='determineVisibility($event)'></router-outlet>
-</div>
+<ngx-pull-to-refresh
+  spinnerColor="#c4c4c4"
+  spinnerSize="25"
+  distanceForRefresh="60"
+  [isEnable]="true"
+  [targetElement]="targetElement"
+  (refresh)="pullToRefresh($event, 'refresh')"
+  (loadMore)="alert('loadmore')"
+  class="pull-to-refresh">
+  <div>
+    <app-header *ngIf="showHeaderNav"></app-header>
+    <app-navigation *ngIf="showHeaderNav"></app-navigation>
+    <div [ngClass]="{ 'content-container': showHeaderNav }" class="padded-desktop" style="background-color: white; height: 100%;">
+      <router-outlet (activate)='determineVisibility($event)'></router-outlet>
+    </div>
+  </div>
+</ngx-pull-to-refresh>

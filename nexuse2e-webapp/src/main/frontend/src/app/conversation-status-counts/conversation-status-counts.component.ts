@@ -20,11 +20,8 @@ export class ConversationStatusCountsComponent implements OnInit {
     public screenSizeService: ScreensizeService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.conversationStatusCounts = await this.dataService.getConversationStatusCounts();
-    this.getConversationStatusTotalCount();
-    this.statusCountOver0 = this.countStatusCountsOver0();
-    this.loaded = true;
+  ngOnInit(): void {
+    void this.updateView();
   }
 
   getConversationStatusTotalCount() {
@@ -35,6 +32,14 @@ export class ConversationStatusCountsComponent implements OnInit {
           this.conversationStatusCounts[conversationStatusCountsKey];
       }
     }
+  }
+
+  async updateView() {
+    this.loaded = false;
+    this.conversationStatusCounts = await this.dataService.getConversationStatusCounts();
+    this.getConversationStatusTotalCount();
+    this.statusCountOver0 = this.countStatusCountsOver0();
+    this.loaded = true;
   }
 
   countStatusCountsOver0(): number {

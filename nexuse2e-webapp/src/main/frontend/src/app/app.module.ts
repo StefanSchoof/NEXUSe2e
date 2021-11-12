@@ -70,6 +70,7 @@ import { ConversationsIdleComponent } from "./conversations-idle/conversations-i
 import { CertificatesComponent } from "./certificates/certificates.component";
 import { MatChipsModule } from "@angular/material/chips";
 import { RefreshButtonComponent } from "./refresh-button/refresh-button.component";
+import { NgxPullToRefreshModule } from "ngx-pull-to-refresh";
 
 const routes: Routes = [
   { path: "", redirectTo: "/dashboard", pathMatch: "full" },
@@ -218,6 +219,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ClipboardModule,
     MatDialogModule,
     MatChipsModule,
+    NgxPullToRefreshModule,
   ],
   providers: [
     {

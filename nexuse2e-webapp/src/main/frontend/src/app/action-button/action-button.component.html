@@ -1,7 +1,7 @@
 <button *ngIf="isPermitted" mat-stroked-button
         (click)="performAction()"
         color="primary"
-        [disabled]="inProgress"
+        [disabled]="inProgress || disabled"
         [class.spinner]="inProgress"
 >
   <mat-icon class="btnIcon" *ngIf="action.icon">{{ action.icon }}</mat-icon>

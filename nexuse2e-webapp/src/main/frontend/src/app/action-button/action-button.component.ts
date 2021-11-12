@@ -14,6 +14,7 @@ export class ActionButtonComponent implements OnInit {
   @Output() triggerReload: EventEmitter<void> = new EventEmitter();
   isPermitted = false;
   inProgress = false;
+  disabled = false;
 
   constructor(
     private permissionService: PermissionService,
@@ -39,6 +40,7 @@ export class ActionButtonComponent implements OnInit {
         await this.actionService.requeueMessages();
         break;
       case "/message/requeue":
+        this.disabled = true;
         await this.actionService.requeueMessages(this.affectedItems);
         break;
       case "/conversations/delete":

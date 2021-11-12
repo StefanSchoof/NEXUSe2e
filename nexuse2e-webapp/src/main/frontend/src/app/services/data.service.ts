@@ -179,7 +179,8 @@ export class DataService {
 
   getConversationStatusCounts(): Promise<{ [status: string]: number }> {
     return this.get<{ [status: string]: number }>(
-      "/conversation-status-counts"
+      "/conversation-status-counts",
+      false
     );
   }
 

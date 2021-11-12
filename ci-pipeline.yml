@@ -35,7 +35,7 @@ stages:
               mavenPomFile: ./nexuse2e-core/pom.xml
               goals: clean install
               options: >
-                -B -e -P with-new-frontend --no-transfer-progress
+                -B -e --no-transfer-progress
               publishJUnitResults: false
               javaHomeOption: JDKVersion
               jdkVersionOption: 1.11

@@ -11,7 +11,7 @@
 
     <artifactId>nexuse2e-webapp</artifactId>
     <packaging>war</packaging>
-    <version>5.10.1</version>
+    <version>5.10.2-SNAPSHOT</version>
     <name>NEXUSe2e Server Web Application</name>
     <url>http://www.nexuse2e.org</url>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.nexuse2e</groupId>
             <artifactId>nexuse2e-core</artifactId>
-            <version>5.10.1</version>
+            <version>5.10.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <!-- build -->
