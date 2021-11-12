@@ -440,7 +440,7 @@ function afterDataSetFilled(series, dataSet, icsc) {&#xD;
 		values[1] = 'Unknown';&#xD;
 		values[2] = 'Retrying';&#xD;
 		values[3] = 'Queued';&#xD;
-		values[4] = 'Sent';&#xD;
+		values[4] = 'Processed';&#xD;
 		values[5] = 'Stopped';&#xD;
 		dataSet.setValues( values );&#xD;
 	}&#xD;
