@@ -104,9 +104,9 @@ public class ReportMessageEntryForm extends ActionForm {
                 // setStatus( "Retrying (" + messagePojo.getStatus() + ")" );
                 setStatus("Retrying");
                 break;
-            case COMPLETED:
-                // setStatus( "Sent (" + messagePojo.getStatus() + ")" );
-                setStatus("Completed");
+            case PROCESSED:
+                // setStatus( "Processed (" + messagePojo.getStatus() + ")" );
+                setStatus("Processed");
                 break;
             case STOPPED:
                 // setStatus( "Stopped (" + messagePojo.getStatus() + ")" );
@@ -121,9 +121,9 @@ public class ReportMessageEntryForm extends ActionForm {
             case FAILED:
                 setBackendStatus("Failed");
                 break;
-            case COMPLETED_INBOUND:
-            case COMPLETED_OUTBOUND:
-                setBackendStatus("Completed");
+            case PROCESSED:
+            case PROCESSED_OUTBOUND:
+                setBackendStatus("Processed");
                 break;
             default:
                 setBackendStatus("Unknown");

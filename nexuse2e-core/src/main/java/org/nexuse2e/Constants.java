@@ -115,9 +115,9 @@ public class Constants {
             case RETRYING:
                 // setStatus( "Retrying (" + messagePojo.getStatus() + ")" );
                 return "Retrying";
-            case COMPLETED:
+            case PROCESSED:
                 // setStatus( "Completed (" + messagePojo.getStatus() + ")" );
-                return "Completed";
+                return "Processed";
             case STOPPED:
                 // setStatus( "Stopped (" + messagePojo.getStatus() + ")" );
                 return "Stopped";

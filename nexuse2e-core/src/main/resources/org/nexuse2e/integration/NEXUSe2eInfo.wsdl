@@ -316,7 +316,7 @@
                     <xsd:enumeration value="UNKNOWN"/>
                     <xsd:enumeration value="RETRYING"/>
                     <xsd:enumeration value="QUEUED"/>
-                    <xsd:enumeration value="SENT"/>
+                    <xsd:enumeration value="PROCESSED"/>
                     <xsd:enumeration value="STOPPED"/>
                 </xsd:restriction>
             </xsd:simpleType>

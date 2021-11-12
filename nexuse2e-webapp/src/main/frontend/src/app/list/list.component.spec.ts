@@ -112,7 +112,7 @@ describe("ListComponent", () => {
       choreographyId: "GenericFile",
       createdDate: "01-12-2022 15:21:03 GMT",
       typeName: "Normal",
-      status: "Completed",
+      status: "Processed",
       conversationId: "CEBC3B83-3648-41C6-F033-E8B8A4A48AF8",
       nxMessageId: 1,
       nxConversationId: 1,

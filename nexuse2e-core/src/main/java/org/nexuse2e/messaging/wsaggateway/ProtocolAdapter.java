@@ -142,7 +142,7 @@ public class ProtocolAdapter implements org.nexuse2e.messaging.ProtocolAdapter {
         MessagePojo message = new MessagePojo();
         List<MessagePayloadPojo> payloads = new ArrayList<MessagePayloadPojo>();
         for (MessagePojo m : messages) {
-            m.setStatus( MessageStatus.COMPLETED.getOrdinal() );
+            m.setStatus( MessageStatus.PROCESSED.getOrdinal() );
             m.setEndDate( new Date());
             for (MessagePayloadPojo payload : m.getMessagePayloads()) {
                 try {

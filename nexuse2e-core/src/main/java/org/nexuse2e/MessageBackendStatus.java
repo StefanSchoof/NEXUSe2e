@@ -20,7 +20,8 @@
 package org.nexuse2e;
 
 public enum MessageBackendStatus {
-    FAILED(-1), UNKNOWN(0), COMPLETED_INBOUND(1), COMPLETED_OUTBOUND(2);
+    // PROCESSED_OUTBOUND is a legacy status and is nut being set anymore
+    FAILED(-1), UNKNOWN(0), PROCESSED(1), PROCESSED_OUTBOUND(2);
 
     int ordinal = 0;
 

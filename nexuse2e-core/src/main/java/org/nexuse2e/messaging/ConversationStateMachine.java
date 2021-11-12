@@ -80,29 +80,29 @@ public interface ConversationStateMachine {
     public abstract void sendingMessage() throws StateTransitionException, NexusException;
     
     /**
-     * Puts a message to SENT state (except for normal outbound messages on reliable conversations which are put
-     * to SENT by the {@link #receivedAckMessage()} transition). Updates the conversation state if necessary.
+     * Puts a message to PROCESSED state (except for normal outbound messages on reliable conversations which are put
+     * to PROCESSED by the {@link #receivedAckMessage()} transition). Updates the conversation state if necessary.
      * @throws StateTransitionException If the state transition is illegal.
      * @throws NexusException If the transition could not be performed due to a system-specific error.
      */
     public abstract void sentMessage() throws StateTransitionException, NexusException;
 
     /**
-     * Puts an inbound request message to SENT state.
+     * Puts an inbound request message to PROCESSED state.
      * @throws StateTransitionException If the state transition is illegal.
      * @throws NexusException If the transition could not be performed due to a system-specific error.
      */
     public abstract void receivedRequestMessage() throws StateTransitionException, NexusException;
 
     /**
-     * Puts a non-reliable inbound message to SENT state
+     * Puts a non-reliable inbound message to PROCESSED state
      * @throws StateTransitionException If the state transition is illegal.
      * @throws NexusException If the transition could not be performed due to a system-specific error.
      */
     public abstract void receivedNonReliableMessage() throws StateTransitionException, NexusException;
 
     /**
-     * Puts an ACK message to SENT state and sets the referenced message's end date.
+     * Puts an ACK message to PROCESSED state and sets the referenced message's end date.
      * Updates the conversation state if necessary.
      * @throws StateTransitionException If the state transition is illegal.
      * @throws NexusException If the transition could not be performed due to a system-specific error.
@@ -110,7 +110,7 @@ public interface ConversationStateMachine {
     public abstract void receivedAckMessage() throws StateTransitionException, NexusException;
 
     /**
-     * Puts an inbound error message to SENT state.
+     * Puts an inbound error message to PROCESSED state.
      * @throws StateTransitionException If the state transition is illegal.
      * @throws NexusException If the transition could not be performed due to a system-specific error.
      */

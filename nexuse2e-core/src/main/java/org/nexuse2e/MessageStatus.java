@@ -20,7 +20,7 @@
 package org.nexuse2e;
 
 public enum MessageStatus {
-    FAILED(-1), UNKNOWN(0), RETRYING(1), QUEUED(2), COMPLETED(3), STOPPED(4);
+    FAILED(-1), UNKNOWN(0), RETRYING(1), QUEUED(2), PROCESSED(3), STOPPED(4);
 
     int ordinal = 0;
 

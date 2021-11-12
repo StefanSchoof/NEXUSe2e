@@ -94,12 +94,12 @@ public class TransactionDAOImpl extends BasicDAOImpl implements TransactionDAO {
 
         followUpMessageStates = new HashMap<Integer, int[]>();
         followUpMessageStates.put(MessageStatus.FAILED.getOrdinal(), new int[]{MessageStatus.QUEUED.getOrdinal(),
-                MessageStatus.COMPLETED.getOrdinal()});
+                MessageStatus.PROCESSED.getOrdinal()});
         followUpMessageStates.put(MessageStatus.RETRYING.getOrdinal(), new int[]{MessageStatus.FAILED.getOrdinal(),
-                MessageStatus.COMPLETED.getOrdinal()});
+                MessageStatus.PROCESSED.getOrdinal()});
         followUpMessageStates.put(MessageStatus.QUEUED.getOrdinal(), new int[]{MessageStatus.RETRYING.getOrdinal(),
-                MessageStatus.FAILED.getOrdinal(), MessageStatus.COMPLETED.getOrdinal()});
-        followUpMessageStates.put(MessageStatus.COMPLETED.getOrdinal(), new int[]{MessageStatus.QUEUED.getOrdinal()});
+                MessageStatus.FAILED.getOrdinal(), MessageStatus.PROCESSED.getOrdinal()});
+        followUpMessageStates.put(MessageStatus.PROCESSED.getOrdinal(), new int[]{MessageStatus.QUEUED.getOrdinal()});
     }
 
     private String getType(int messageType) {
@@ -1330,7 +1330,7 @@ public class TransactionDAOImpl extends BasicDAOImpl implements TransactionDAO {
 
     private MessagePojo getLastSuccessfulMessageByCriteriaAndDirection(DetachedCriteria criteria, boolean outbound) {
         criteria.add(Restrictions.eq("outbound", outbound));
-        criteria.add(Restrictions.eq("status", MessageStatus.COMPLETED.getOrdinal()));
+        criteria.add(Restrictions.eq("status", MessageStatus.PROCESSED.getOrdinal()));
         criteria.add(Restrictions.eq("type", INT_MESSAGE_TYPE_NORMAL));
         criteria.addOrder(Order.desc("createdDate"));
 

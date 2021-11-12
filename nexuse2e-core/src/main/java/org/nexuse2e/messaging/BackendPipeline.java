@@ -81,13 +81,8 @@ public class BackendPipeline extends AbstractPipeline implements ActionSpecific 
             } else {
                 LOG.error( new LogMessage( "No pipelets found.", messageContext.getMessagePojo() ) );
             }
-            if (messageContext.getMessagePojo().isOutbound()) {
-                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.COMPLETED_OUTBOUND.getOrdinal());
-            } else {
-                messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.COMPLETED_INBOUND.getOrdinal());
-            }
+            messageContext.getMessagePojo().setBackendStatus(MessageBackendStatus.PROCESSED.getOrdinal());
             messageContext = pipelineEndpoint.processMessage( messageContext );
-
         } catch ( Exception e ) {
             throw new NexusException( "Error processing backend pipeline: " + e.getMessage(), e );
         }

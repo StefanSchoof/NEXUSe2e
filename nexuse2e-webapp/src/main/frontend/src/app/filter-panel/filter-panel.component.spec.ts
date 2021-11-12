@@ -97,7 +97,7 @@ describe("FilterPanelComponent", () => {
       {
         fieldName: "status",
         filterType: FilterType.SELECT,
-        allowedValues: ["FAILED", "SENT"],
+        allowedValues: ["FAILED", "PROCESSED"],
       },
       {
         fieldName: "conversationId",

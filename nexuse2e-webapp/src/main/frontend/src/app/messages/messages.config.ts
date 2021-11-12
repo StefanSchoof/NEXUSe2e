@@ -46,7 +46,7 @@ export const MESS_LIST__FILTERS = [
     filterType: FilterType.SELECT,
     allowedValues: [
       "FAILED",
-      "SENT",
+      "PROCESSED",
       "UNKNOWN",
       "RETRYING",
       "QUEUED",
