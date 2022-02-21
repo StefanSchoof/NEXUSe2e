@@ -52,8 +52,14 @@ jobs:
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
-      - name: Build with Maven
+      - name: Build parent
         run: mvn --batch-mode --update-snapshots verify --file ./nexuse2e-parent/pom.xml
+
+      - name: Build core
+        run: mvn --batch-mode --update-snapshots verify --file ./nexuse2e-core/pom.xml
+
+      - name: Build webapp
+        run: mvn --batch-mode --update-snapshots verify --file ./nexuse2e-webapp/pom.xml
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 https://git.io/JvXDl
